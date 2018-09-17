@@ -1,6 +1,6 @@
 
-#define USE_FINGER
-//#define USE_HANDS
+//#define USE_FINGER
+#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -37,7 +37,7 @@
 #endif
 
 
-int deviceId = 3; //set this via drip switch. starts with 0
+int deviceId = 4; //set this via drip switch. starts with 0
 
 //--------------wifi or ethernet + OSC ----------
 #ifdef USE_WIFI
@@ -101,6 +101,7 @@ PulseSensorPlayground pulseSensor;
 #endif
 
 //-------- Hands Sensor Variables --------------
+bool handsOn = false;
 #ifdef USE_HANDS
 #include <elapsedMillis.h>
 
@@ -116,6 +117,7 @@ unsigned long pulsePeriode;
 unsigned long pulseWidth;
 
 int signalType; //hand sensor's digital pin creates different on off timings for different types of data. hands on, pulse, hands off
+
 
 #endif
 
@@ -162,10 +164,10 @@ void setup() {
   Serial.begin(115200);
 
   Serial.println("---PulseTank_osc---");
-  
+
   Serial.print("version ");
   Serial.println(VERSIONNUM);
-  
+
   Serial.print("deviceId ");
   Serial.println(deviceId);
 
@@ -187,7 +189,7 @@ void setup() {
   setup_handsSensor();
 #endif
 
-setup_actuator();
+  setup_actuator();
   //----------- Connect to WiFi network
 
   setup_osc();

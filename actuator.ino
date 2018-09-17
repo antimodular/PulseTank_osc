@@ -12,8 +12,8 @@ int BPM_duration;
 int primaryDuration; // = BPM_duration / 4;
 int secondaryDuration; // = BPM_duration - primaryDuration;
 
-int onTimePrimary = 20; //30;
-int onTimeSecondary = 20; //30;
+int onTimePrimary = 30; //20; //30;
+int onTimeSecondary = 30; //20; //30;
 
 bool useAnalog = false;
 
@@ -42,59 +42,88 @@ void set_actuatorBPM(int _BPM) {
     offTimePrimary = primaryDuration - onTimePrimary;
     offTimeSecondary = secondaryDuration - onTimeSecondary;
   }
-//  Serial.print("set_actuatorBPM: _BPM ");
-//  Serial.print(_BPM);
-//  Serial.print("BPM_duration ");
-//  Serial.print(BPM_duration);
-//  Serial.println();
+  Serial.print("set_actuatorBPM: ");
+  Serial.print(_BPM);
+  Serial.print(" BPM_duration ");
+  Serial.print(BPM_duration);
+  Serial.println();
+}
+
+void loop_actuator2() {
+allOn(0);
+delay(onTimePrimary);
+allOff(0);
+delay(onTimeSecondary);
 }
 
 void loop_actuator() {
   //
-  //  Serial.print("BPM_duration ");
-  //  Serial.print(BPM_duration);
-  //  Serial.print(" stage ");
-  //  Serial.print(pulseStage);
-  //  Serial.print(" stageDuration ");
-  //  Serial.print(stageDuration);
-  //  Serial.println();
-//  if (millis() < 4000) BPM_duration = -1;
-  
-  if (BPM_duration > 0 && isTouched == true) {
+//      Serial.print("BPM_duration ");
+//      Serial.print(BPM_duration);
+//      Serial.print(" stage ");
+//      Serial.print(pulseStage);
+//      Serial.print(" stageDuration ");
+//      Serial.print(stageDuration);
+//      Serial.println();
+  //  if (millis() < 4000) BPM_duration = -1;
+//  BPM_duration = 800;
+//  primaryDuration = BPM_duration / 4;
+//  secondaryDuration = BPM_duration - primaryDuration;
+//
+//  offTimePrimary = primaryDuration - onTimePrimary;
+//  offTimeSecondary = secondaryDuration - onTimeSecondary;
+
+  if (BPM_duration > 0  && (isTouched == true || handsOn == true)) {
     if (pulseStage == 1) {
       //primary beat on
-      allOn(stageDuration);
+//      allOn(stageDuration);
       if (millis() - actuationTimer >= stageDuration) {
+        Serial.print(" stage 2 ");
+        Serial.print(stageDuration);
+        Serial.println();
         actuationTimer = millis();
         pulseStage = 2;
         stageDuration = offTimePrimary;
+         allOff(stageDuration);
       }
     }
     if (pulseStage == 2) {
       //primary beat off
-      allOff(stageDuration);
+//      allOff(stageDuration);
       if (millis() - actuationTimer >= stageDuration) {
+        Serial.print(" stage 3 ");
+        Serial.print(stageDuration);
+        Serial.println();
         actuationTimer = millis();
         pulseStage = 3;
         stageDuration = onTimeSecondary;
+         allOn(stageDuration);
       }
     }
     if (pulseStage == 3) {
       //secondary beat on
-      allOn(stageDuration);
+//      allOn(stageDuration);
       if (millis() - actuationTimer >= stageDuration) {
+        Serial.print(" stage 4 ");
+        Serial.print(stageDuration);
+        Serial.println();
         actuationTimer = millis();
         pulseStage = 4;
         stageDuration = offTimeSecondary;
+        allOff(stageDuration);
       }
     }
     if (pulseStage == 4) {
       //secondary beat off
-      allOff(stageDuration);
+//      allOff(stageDuration);
       if (millis() - actuationTimer >= stageDuration) {
+        Serial.print(" stage 1 ");
+        Serial.print(stageDuration);
+        Serial.println();
         actuationTimer = millis();
         pulseStage = 1;
         stageDuration = onTimePrimary;
+         allOn(stageDuration);
       }
     }
 
@@ -105,9 +134,9 @@ void loop_actuator() {
 
 
 void allOn(int _duration) {
-//    Serial.print("allOn ");
-//    Serial.print(_duration);
-//    Serial.println();
+  //    Serial.print("allOn ");
+  //    Serial.print(_duration);
+  //    Serial.println();
 
   onOff_state = 1;
   int duty;
@@ -127,6 +156,7 @@ void allOn(int _duration) {
     //    analogWrite(actutatorPin1, duty);
   } else {
     digitalWrite(actuator0_pin, 1);
+//    Serial.print("1");
     //    digitalWrite(actutatorPin1, 1);
   }
 }
@@ -140,6 +170,7 @@ void allOff(int _duration) {
     //    analogWrite(actutatorPin1, 0);
   } else {
     digitalWrite(actuator0_pin, 0);
+//    Serial.print("0");
     //    digitalWrite(actutatorPin1, 0);
   }
 

@@ -264,6 +264,27 @@ void bpmSend(int _BPM) {
   
 }
 
+void bpm2Send(int _BPM) {
+  
+    //the custom reading analysiz BPM
+
+    //Serial.println ("BPM ");
+    //  if (_forceValue == -1) {
+    //    BPM = pulseSensor.getBeatsPerMinute();
+    //  } else {
+    //    BPM = _forceValue;
+    //  }
+    //  Serial.println (BPM);
+    OSCMessage msg("/bpm2");
+    msg.add(deviceId);
+    msg.add(_BPM);
+    Udp.beginPacket(outIp, outPort);
+    msg.send(Udp);
+    Udp.endPacket();
+    msg.empty();
+  
+}
+
 void sensorTypeSend(String _type) {
   
     OSCMessage msg("/type");

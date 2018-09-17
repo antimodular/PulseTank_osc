@@ -1,5 +1,5 @@
 #ifdef USE_HANDS
-#include <elapsedMillis.h>
+//#include <elapsedMillis.h>
 
 unsigned long typeTimer;
 
@@ -12,7 +12,7 @@ void setup_handsSensor() {
 
 
   signalType = 0;
-
+  handsOn = false;
 }
 
 void loop_handsSensor() {
@@ -22,10 +22,10 @@ void loop_handsSensor() {
     sensorTypeSend("Hand");
   }
 
-  pulse = digitalRead(PULSE_INPUT);
+  pulse = digitalRead(HAND_INPUT);
 
   if (pulse != lastPulse) {
-
+    //    Serial.print (" ");
     //    Serial.print (pulse);
     //    Serial.print (" / ");
     //    Serial.println (lastPulse);
@@ -49,10 +49,12 @@ void loop_handsSensor() {
       if (signalType == 2) {
         Serial.print ("dur ");
         Serial.print (low_duration);
-        Serial.print (" / BMP ");
+        Serial.print (" / BPM ");
         BPM = 60000 / low_duration;
         Serial.print (BPM);
+        Serial.println();
         bpmSend(BPM);
+        set_actuatorBPM(BPM);
         //        Serial.println();
       }
     } else {
@@ -66,6 +68,8 @@ void loop_handsSensor() {
         signalType = 1;
         Serial.print (" hands on ");
         Serial.println (high_duration);
+        handsOn = true;
+        insideSend(handsOn);
       }
       else if (high_duration > 18 && high_duration < 22)
       {
@@ -75,12 +79,15 @@ void loop_handsSensor() {
         Serial.print (high_duration);
         Serial.println();
       }
-      else
+      else if(high_duration >= 70)
       {
         //70 ms
         signalType = 3;
         Serial.print (" hands off ");
         Serial.println (high_duration);
+        handsOn = false;
+        set_actuatorBPM(-1);
+        insideSend(handsOn);
       }
     } //end pulse == LOW
 

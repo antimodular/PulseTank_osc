@@ -1,7 +1,7 @@
 #ifdef USE_FINGER
 
 unsigned long typeTimer;
-bool isInside, old_isInside;
+//bool isInside, old_isInside;
 
 unsigned long fingerInTimer;
 unsigned long fingerOutTimer;
@@ -24,8 +24,8 @@ void setup_fingerSensor() {
   // Skip the first SAMPLES_PER_SERIAL_SAMPLE in the loop().
   samplesUntilReport = SAMPLES_PER_SERIAL_SAMPLE;
 
-  isInside = false;
-  old_isInside = true;
+//  isInside = false;
+//  old_isInside = true;
 
   // Now that everything is ready, start reading the PulseSensor signal.
   if (!pulseSensor.begin()) {
@@ -64,26 +64,27 @@ void loop_fingerSensor() {
       int latestSample = pulseSensor.getLatestSample();
 
       int tempBPM = 123;
-//      Serial.print("latestSample ");
-//      Serial.print(latestSample);
-//      Serial.println();
-      if (latestSample >= 1022 && old_latestSample != latestSample) {
+      //      Serial.print("latestSample ");
+      //      Serial.print(latestSample);
+      //      Serial.println();
+      if (latestSample >= 935 && old_latestSample != latestSample) {
 
 
-     
+
         unsigned long temp_dur = millis() - tempTimer;
 
         tempTimer = millis();
 
         tempBPM = 60000 / temp_dur;
 
-        bpmSend(tempBPM);
-        Serial.print("temp_dur ");
-        Serial.println(temp_dur);
-        Serial.print("tempBPM ");
-        Serial.println(tempBPM);
+        bpm2Send(tempBPM);
+        //        bpmSend(tempBPM);
+        //        Serial.print("temp_dur ");
+        //        Serial.println(temp_dur);
+        //        Serial.print("tempBPM ");
+        //        Serial.println(tempBPM);
       }
-         old_latestSample = latestSample;
+      old_latestSample = latestSample;
 
       //      sampleSend(latestSample);
       //       comboSend(pulseSensor.getPulseTrough(), tempBPM, pulseSensor.getPulsePeak());
@@ -136,7 +137,7 @@ void loop_fingerSensor() {
       if (pulseSensor.sawStartOfBeat()) {
         BPM = pulseSensor.getBeatsPerMinute();
         //        if (BPM > 55 && BPM < 130) {
-        //        bpmSend(BPM);
+        bpmSend(BPM);
         set_actuatorBPM(BPM);
         //        }
         pulseSensor.outputBeat(); //for debugging via serial port
