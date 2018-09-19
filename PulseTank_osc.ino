@@ -1,6 +1,6 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -37,7 +37,7 @@
 #endif
 
 
-int deviceId = 4; //set this via drip switch. starts with 0
+int deviceId = 2; //set this via drip switch. starts with 0
 
 //--------------wifi or ethernet + OSC ----------
 #ifdef USE_WIFI

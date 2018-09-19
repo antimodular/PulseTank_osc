@@ -40,8 +40,7 @@ void loop_handsSensor() {
     //    Serial.println(pulseWidth);
 
 
-    if (pulse == HIGH)
-    {
+    if (pulse == HIGH) {
       //pulse == HIGH
       high_duration = 0;
       digitalWrite(PULSE_BLINK, LOW);
@@ -79,7 +78,7 @@ void loop_handsSensor() {
         Serial.print (high_duration);
         Serial.println();
       }
-      else if(high_duration >= 70)
+      else //if(high_duration >= 70)
       {
         //70 ms
         signalType = 3;

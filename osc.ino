@@ -141,6 +141,7 @@ void checkOSC_inputMsg() {
     }
     if (!msg.hasError()) {
       msg.dispatch("/thres", setThreshold);
+      msg.dispatch("/touchThr", setTouchThreshold);
       msg.dispatch("/ping", setPing);
       msg.empty();
     } else {
@@ -168,6 +169,25 @@ void setThreshold(OSCMessage &msg) {
     pulseSensor.setThreshold(THRESHOLD);
     Serial.print("/thres: ");
     Serial.println(THRESHOLD);
+  }
+#endif
+}
+
+void setTouchThreshold(OSCMessage &msg) {
+  //the touch sensor has different threshold value depending on the wire length + etc
+  //the computer GUI can set this value
+
+#ifdef USE_FINGER
+  int requestedDeviceId = msg.getInt(0);
+
+  //  Serial.print("requestedDeviceId ");
+  //  Serial.println(requestedDeviceId);
+
+  if (requestedDeviceId == deviceId) {
+    //   int sensorId = msg.getInt(1);
+    touchThreshold = msg.getInt(2);
+    Serial.print("/touchThres: ");
+    Serial.println(touchThreshold);
   }
 #endif
 }

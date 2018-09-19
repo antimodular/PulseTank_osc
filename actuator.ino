@@ -36,7 +36,7 @@ void set_actuatorBPM(int _BPM) {
     BPM_duration = 0;
   } else {
     BPM_duration = 60000 / _BPM;
-    primaryDuration = BPM_duration / 4;
+    primaryDuration = BPM_duration / 3;
     secondaryDuration = BPM_duration - primaryDuration;
 
     offTimePrimary = primaryDuration - onTimePrimary;
@@ -49,12 +49,6 @@ void set_actuatorBPM(int _BPM) {
   Serial.println();
 }
 
-void loop_actuator2() {
-allOn(0);
-delay(onTimePrimary);
-allOff(0);
-delay(onTimeSecondary);
-}
 
 void loop_actuator() {
   //
