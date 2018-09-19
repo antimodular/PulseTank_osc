@@ -12,8 +12,8 @@ int BPM_duration;
 int primaryDuration; // = BPM_duration / 4;
 int secondaryDuration; // = BPM_duration - primaryDuration;
 
-int onTimePrimary = 30; //20; //30;
-int onTimeSecondary = 30; //20; //30;
+//int onTimePrimary = 30; //20; //30;
+//int onTimeSecondary = 30; //20; //30;
 
 bool useAnalog = false;
 

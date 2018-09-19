@@ -143,6 +143,9 @@ void checkOSC_inputMsg() {
       msg.dispatch("/thres", setThreshold);
       msg.dispatch("/touchThr", setTouchThreshold);
       msg.dispatch("/ping", setPing);
+      msg.dispatch("/onTimeP", setOnTimePrimary);
+      msg.dispatch("/onTimeS", setOnTimeSecondary);
+
       msg.empty();
     } else {
       error = msg.getError();
@@ -192,6 +195,24 @@ void setTouchThreshold(OSCMessage &msg) {
 #endif
 }
 
+void setOnTimePrimary(OSCMessage &msg) {
+  int requestedDeviceId = msg.getInt(0);
+
+  if (requestedDeviceId == deviceId) {
+    onTimePrimary = msg.getInt(2);
+    Serial.print("/onTimeP: ");
+    Serial.println(onTimePrimary);
+  }
+}
+void setOnTimeSecondary(OSCMessage &msg) {
+  int requestedDeviceId = msg.getInt(0);
+
+  if (requestedDeviceId == deviceId) {
+    onTimeSecondary = msg.getInt(2);
+    Serial.print("/onTimeS: ");
+    Serial.println(onTimeSecondary);
+  }
+}
 
 void loop_osc() {
 
@@ -213,7 +234,7 @@ void loop_osc() {
 void tickerSend() {
   //every so often the micro controller sends a ticker signal to computer
   //so computer nows micro is still on the network
-//  Serial.println("tickerSend");
+  //  Serial.println("tickerSend");
   //  OSCMessage msg("/ticker");
 
   //  OSCBundle msg;
@@ -228,106 +249,106 @@ void tickerSend() {
 }
 
 void sampleSend(int _sensorSample) {
-  
-    //the finger sensor reads an analog pin signal.
-    //this value gets send to the computer
 
-    // Serial.println ("k ");
-    //  if (_forceValue == -1) {
-    //    sensorSample = pulseSensor.getLatestSample(); // analogRead(PULSE_INPUT);  // read input value
-    //  } else {
-    //    sensorSample = _forceValue;
-    //  }
-    //  Serial.println (sample);
+  //the finger sensor reads an analog pin signal.
+  //this value gets send to the computer
 
-    OSCMessage msg("/sample");
-    msg.add(deviceId);
-    msg.add(_sensorSample);
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+  // Serial.println ("k ");
+  //  if (_forceValue == -1) {
+  //    sensorSample = pulseSensor.getLatestSample(); // analogRead(PULSE_INPUT);  // read input value
+  //  } else {
+  //    sensorSample = _forceValue;
+  //  }
+  //  Serial.println (sample);
+
+  OSCMessage msg("/sample");
+  msg.add(deviceId);
+  msg.add(_sensorSample);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 
 void comboSend(int _trough, int _sensorSample, int _peak) {
-  
-    OSCMessage msg("/combo");
-    msg.add(deviceId);
-    msg.add(_trough);
-    msg.add(_sensorSample);
-    msg.add(_peak);
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+
+  OSCMessage msg("/combo");
+  msg.add(deviceId);
+  msg.add(_trough);
+  msg.add(_sensorSample);
+  msg.add(_peak);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 void bpmSend(int _BPM) {
-  
-    //the finger sensor library or the hand sensor readings are send to the computer as BPM
 
-    //Serial.println ("BPM ");
-    //  if (_forceValue == -1) {
-    //    BPM = pulseSensor.getBeatsPerMinute();
-    //  } else {
-    //    BPM = _forceValue;
-    //  }
-    //  Serial.println (BPM);
-    OSCMessage msg("/bpm");
-    msg.add(deviceId);
-    msg.add(_BPM);
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+  //the finger sensor library or the hand sensor readings are send to the computer as BPM
+
+  //Serial.println ("BPM ");
+  //  if (_forceValue == -1) {
+  //    BPM = pulseSensor.getBeatsPerMinute();
+  //  } else {
+  //    BPM = _forceValue;
+  //  }
+  //  Serial.println (BPM);
+  OSCMessage msg("/bpm");
+  msg.add(deviceId);
+  msg.add(_BPM);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 
 void bpm2Send(int _BPM) {
-  
-    //the custom reading analysiz BPM
 
-    //Serial.println ("BPM ");
-    //  if (_forceValue == -1) {
-    //    BPM = pulseSensor.getBeatsPerMinute();
-    //  } else {
-    //    BPM = _forceValue;
-    //  }
-    //  Serial.println (BPM);
-    OSCMessage msg("/bpm2");
-    msg.add(deviceId);
-    msg.add(_BPM);
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+  //the custom reading analysiz BPM
+
+  //Serial.println ("BPM ");
+  //  if (_forceValue == -1) {
+  //    BPM = pulseSensor.getBeatsPerMinute();
+  //  } else {
+  //    BPM = _forceValue;
+  //  }
+  //  Serial.println (BPM);
+  OSCMessage msg("/bpm2");
+  msg.add(deviceId);
+  msg.add(_BPM);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 
 void sensorTypeSend(String _type) {
-  
-    OSCMessage msg("/type");
-    msg.add(deviceId);
-    if (_type == "Fing") msg.add("Fing");
-    else if (_type == "Hand")  msg.add("Hand");
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+
+  OSCMessage msg("/type");
+  msg.add(deviceId);
+  if (_type == "Fing") msg.add("Fing");
+  else if (_type == "Hand")  msg.add("Hand");
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 
 void insideSend(bool _inside) {
-  
-    OSCMessage msg("/inside");
-    msg.add(deviceId);
-    msg.add(_inside);
-    Udp.beginPacket(outIp, outPort);
-    msg.send(Udp);
-    Udp.endPacket();
-    msg.empty();
-  
+
+  OSCMessage msg("/inside");
+  msg.add(deviceId);
+  msg.add(_inside);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
 }
 
 

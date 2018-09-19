@@ -137,6 +137,9 @@ const int actuator0_pin = 4;
 const int actuator1_pin = 3;
 #endif
 
+int onTimePrimary = 20; //20; //30;
+int onTimeSecondary = 20; //20; //30;
+
 //int downTimePrimary = 35 * 4;
 //int downTimeSecondary = 35 * 4;
 //int new_downTimePrimary = downTimePrimary;
