@@ -91,12 +91,43 @@ void setPing(OSCMessage &msg) {
   //  int requestedDeviceId = msg.getInt(0);
   //  if (requestedDeviceId == -1) {
   //   int sensorId = msg.getInt(1);
-  Serial.print(millis() - lastPing);
-  Serial.print(" ms , ");
-  Serial.println("/ping: ");
+  if (bDebug) {
+    Serial.print(millis() - lastPing);
+    Serial.print(" ms , ");
+    Serial.println("/ping: ");
+  }
   lastPing = millis();
   //  }
 }
+
+void setDebug(OSCMessage &msg) {
+
+  int requestedDeviceId = msg.getInt(0);
+
+  if (requestedDeviceId == deviceId) {
+    //   int sensorId = msg.getInt(1);
+    bDebug = msg.getInt(2);
+
+    Serial.print("/debug: ");
+    Serial.println(bDebug);
+
+  }
+}
+
+void setForceSolenoid(OSCMessage &msg) {
+
+  int requestedDeviceId = msg.getInt(0);
+
+  if (requestedDeviceId == deviceId) {
+    //   int sensorId = msg.getInt(1);
+    forceSolenoid = msg.getInt(2);
+
+    Serial.print("/forceS: ");
+    Serial.println(forceSolenoid);
+    forceTimer = millis();
+  }
+}
+
 
 //void setReset(OSCMessage &msg) {
 //  int requestedDeviceId = msg.getInt(0);
@@ -145,7 +176,8 @@ void checkOSC_inputMsg() {
       msg.dispatch("/ping", setPing);
       msg.dispatch("/onTimeP", setOnTimePrimary);
       msg.dispatch("/onTimeS", setOnTimeSecondary);
-
+      msg.dispatch("/forceS", setForceSolenoid);
+      msg.dispatch("/debug", setDebug);
       msg.empty();
     } else {
       error = msg.getError();
@@ -170,8 +202,10 @@ void setThreshold(OSCMessage &msg) {
     //   int sensorId = msg.getInt(1);
     THRESHOLD = msg.getInt(2);
     pulseSensor.setThreshold(THRESHOLD);
-    Serial.print("/thres: ");
-    Serial.println(THRESHOLD);
+    if (bDebug) {
+      Serial.print("/thres: ");
+      Serial.println(THRESHOLD);
+    }
   }
 #endif
 }
@@ -189,8 +223,10 @@ void setTouchThreshold(OSCMessage &msg) {
   if (requestedDeviceId == deviceId) {
     //   int sensorId = msg.getInt(1);
     touchThreshold = msg.getInt(2);
-    Serial.print("/touchThres: ");
-    Serial.println(touchThreshold);
+    if (bDebug) {
+      Serial.print("/touchThres: ");
+      Serial.println(touchThreshold);
+    }
   }
 #endif
 }
@@ -200,8 +236,10 @@ void setOnTimePrimary(OSCMessage &msg) {
 
   if (requestedDeviceId == deviceId) {
     onTimePrimary = msg.getInt(2);
-    Serial.print("/onTimeP: ");
-    Serial.println(onTimePrimary);
+    if (bDebug) {
+      Serial.print("/onTimeP: ");
+      Serial.println(onTimePrimary);
+    }
   }
 }
 void setOnTimeSecondary(OSCMessage &msg) {
@@ -209,8 +247,10 @@ void setOnTimeSecondary(OSCMessage &msg) {
 
   if (requestedDeviceId == deviceId) {
     onTimeSecondary = msg.getInt(2);
-    Serial.print("/onTimeS: ");
-    Serial.println(onTimeSecondary);
+    if (bDebug) {
+      Serial.print("/onTimeS: ");
+      Serial.println(onTimeSecondary);
+    }
   }
 }
 
@@ -223,6 +263,7 @@ void loop_osc() {
   if (millis() - lastPing > 60000) {
     //    lastPing = millis();
     //    WiFi.stop();
+
     Serial.print(millis() - lastPing);
     Serial.print(" , ");
     Serial.println("call setup again because no new OSC for x ms-----BUT NOT");
@@ -351,4 +392,15 @@ void insideSend(bool _inside) {
 
 }
 
+void touchReadSend(int _touchReading) {
+
+  OSCMessage msg("/touchRead");
+  msg.add(deviceId);
+  msg.add(_touchReading);
+  Udp.beginPacket(outIp, outPort);
+  msg.send(Udp);
+  Udp.endPacket();
+  msg.empty();
+
+}
 

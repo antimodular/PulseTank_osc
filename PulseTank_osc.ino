@@ -6,6 +6,8 @@
 
 #include "build_version.h"
 
+int deviceId = 2; //set this via drip switch. starts with 0
+
 //------------------ wifi or ethernet + OSC -------------------
 #include <OSCMessage.h>
 #include <OSCBundle.h>
@@ -37,7 +39,7 @@
 #endif
 
 
-int deviceId = 2; //set this via drip switch. starts with 0
+
 
 //--------------wifi or ethernet + OSC ----------
 #ifdef USE_WIFI
@@ -71,7 +73,7 @@ const int PULSE_FADE = 0;
 const int PULSE_INPUT = A6;
 const int HAND_INPUT = 14;
 const int PULSE_FADE = A9;
-const int TOUCH_PIN = A2; //A1;
+const int TOUCH_PIN = A1; //A1;
 #endif
 
 
@@ -105,7 +107,7 @@ bool handsOn = false;
 #ifdef USE_HANDS
 #include <elapsedMillis.h>
 
-bool pulse = 0;
+volatile bool pulse = 0;
 bool lastPulse = 0;
 
 elapsedMillis high_duration;
@@ -140,6 +142,9 @@ const int actuator1_pin = 3;
 int onTimePrimary = 20; //20; //30;
 int onTimeSecondary = 20; //20; //30;
 
+bool forceSolenoid = false;
+unsigned long forceTimer;
+
 //int downTimePrimary = 35 * 4;
 //int downTimeSecondary = 35 * 4;
 //int new_downTimePrimary = downTimePrimary;
@@ -160,6 +165,7 @@ bool bUseFinder;
 int fakeSample, fakeBPM;
 unsigned long fakeTimer;
 
+bool bDebug = false;
 
 
 void setup() {
@@ -190,6 +196,8 @@ void setup() {
 
 #ifdef USE_HANDS
   setup_handsSensor();
+   attachInterrupt(digitalPinToInterrupt(HAND_INPUT), handInput_interrupt, CHANGE);
+
 #endif
 
   setup_actuator();

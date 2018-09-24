@@ -24,8 +24,8 @@ void setup_fingerSensor() {
   // Skip the first SAMPLES_PER_SERIAL_SAMPLE in the loop().
   samplesUntilReport = SAMPLES_PER_SERIAL_SAMPLE;
 
-//  isInside = false;
-//  old_isInside = true;
+  //  isInside = false;
+  //  old_isInside = true;
 
   // Now that everything is ready, start reading the PulseSensor signal.
   if (!pulseSensor.begin()) {
@@ -140,6 +140,7 @@ void loop_fingerSensor() {
         bpmSend(BPM);
         set_actuatorBPM(BPM);
         //        }
+//        if (bDebug) {
         pulseSensor.outputBeat(); //for debugging via serial port
 
       }

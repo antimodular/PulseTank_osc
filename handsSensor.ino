@@ -15,6 +15,9 @@ void setup_handsSensor() {
   handsOn = false;
 }
 
+void handInput_interrupt() {
+  pulse = digitalRead(HAND_INPUT);
+}
 void loop_handsSensor() {
 
   if (millis() - typeTimer > 2000) {
@@ -22,7 +25,7 @@ void loop_handsSensor() {
     sensorTypeSend("Hand");
   }
 
-  pulse = digitalRead(HAND_INPUT);
+  //  pulse = digitalRead(HAND_INPUT);
 
   if (pulse != lastPulse) {
     //    Serial.print (" ");
@@ -46,12 +49,14 @@ void loop_handsSensor() {
       digitalWrite(PULSE_BLINK, LOW);
 
       if (signalType == 2) {
-        Serial.print ("dur ");
-        Serial.print (low_duration);
-        Serial.print (" / BPM ");
         BPM = 60000 / low_duration;
-        Serial.print (BPM);
-        Serial.println();
+//        if (bDebug) {
+          Serial.print ("dur ");
+          Serial.print (low_duration);
+          Serial.print (" / BPM ");
+          Serial.print (BPM);
+          Serial.println();
+//        }
         bpmSend(BPM);
         set_actuatorBPM(BPM);
         //        Serial.println();
