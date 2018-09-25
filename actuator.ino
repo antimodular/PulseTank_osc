@@ -196,17 +196,4 @@ void allOff(int _duration) {
 
 }
 
-//void beat(int a, int b) {
-//  digitalWrite(led0, ON);   // turn the LED on (HIGH is the voltage level)
-//  //  digitalWrite(led1, ON);   // turn the LED on (HIGH is the voltage level)
-//  //  digitalWrite(led2, ON);   // turn the LED on (HIGH is the voltage level)
-//
-//  delay(a);               // wait for a second
-//  digitalWrite(led0, OFF);    // turn the LED off by making the voltage LOW
-//  //  digitalWrite(led1, OFF);
-//  //  digitalWrite(led2, OFF);
-//  delay(b);               // wait for a second
-//
-//
-//}
 

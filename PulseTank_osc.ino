@@ -108,7 +108,7 @@ bool handsOn = false;
 #include <elapsedMillis.h>
 
 volatile bool pulse = 0;
-bool lastPulse = 0;
+volatile bool lastPulse = 0;
 
 elapsedMillis high_duration;
 elapsedMillis low_duration;
@@ -118,8 +118,16 @@ unsigned long myTimer;
 unsigned long pulsePeriode;
 unsigned long pulseWidth;
 
-int signalType; //hand sensor's digital pin creates different on off timings for different types of data. hands on, pulse, hands off
+volatile int signalType; //hand sensor's digital pin creates different on off timings for different types of data. hands on, pulse, hands off
+volatile int old_cnt;
+volatile int new_cnt;
 
+volatile int new_BPM;
+volatile int old_BPM;
+volatile bool new_handsOn;
+volatile bool old_handsOn;
+volatile int new_low_duration;
+volatile int new_high_duration;
 
 #endif
 
@@ -156,6 +164,8 @@ const int PULSE_BLINK = 0;    // Pin 13 is the on-board LED
 
 int sensorSample;
 int BPM;
+
+
 
 unsigned long tickTimer; //code will send a tick every so often so computer knows connecgtion is still alive
 
