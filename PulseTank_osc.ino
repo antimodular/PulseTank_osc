@@ -1,12 +1,12 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
 #include "build_version.h"
 
-int deviceId = 4; //set this via drip switch. starts with 0
+int deviceId = 2; //set this via drip switch. starts with 0
 
 //------------------ wifi or ethernet + OSC -------------------
 #include <OSCMessage.h>
@@ -100,6 +100,15 @@ const byte SAMPLES_PER_SERIAL_SAMPLE = 10;
 
 PulseSensorPlayground pulseSensor;
 
+//----interval timer------
+
+IntervalTimer timer0;
+
+volatile int BPM_interval;                   // used to hold the pulse rate
+volatile int Signal_interval;                // holds the incoming raw data
+volatile int IBI_interval = 600;             // holds the time between beats, the Inter-Beat Interval
+volatile boolean Pulse_interval = false;     // true when pulse wave is high, false when it's low
+volatile boolean QS_interval = false;        // becomes true when Arduoino finds a beat.
 #endif
 
 //-------- Hands Sensor Variables --------------
@@ -201,6 +210,8 @@ void setup() {
 
   //----------Finger PulseSensor
 #ifdef USE_FINGER
+  timer0.begin(timerCallback0, 2000);
+
   setup_fingerSensor();
   setup_touchSensor();
 #endif

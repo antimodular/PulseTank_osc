@@ -63,28 +63,35 @@ void loop_fingerSensor() {
       samplesUntilReport = SAMPLES_PER_SERIAL_SAMPLE;
       int latestSample = pulseSensor.getLatestSample();
 
-      int tempBPM = 123;
-      //      Serial.print("latestSample ");
-      //      Serial.print(latestSample);
-      //      Serial.println();
-      if (latestSample >= 935 && old_latestSample != latestSample) {
+//      int tempBPM = 123;
+//      //      Serial.print("latestSample ");
+//      //      Serial.print(latestSample);
+//      //      Serial.println();
+//      if (latestSample >= 935 && old_latestSample != latestSample) {
+//
+//
+//
+//        unsigned long temp_dur = millis() - tempTimer;
+//
+//        tempTimer = millis();
+//
+//        tempBPM = 60000 / temp_dur;
+//
+//        bpm2Send(tempBPM);
+//        //        bpmSend(tempBPM);
+//        //        Serial.print("temp_dur ");
+//        //        Serial.println(temp_dur);
+//        //        Serial.print("tempBPM ");
+//        //        Serial.println(tempBPM);
+//      }
+//      old_latestSample = latestSample;
 
-
-
-        unsigned long temp_dur = millis() - tempTimer;
-
-        tempTimer = millis();
-
-        tempBPM = 60000 / temp_dur;
-
-        bpm2Send(tempBPM);
-        //        bpmSend(tempBPM);
-        //        Serial.print("temp_dur ");
-        //        Serial.println(temp_dur);
-        //        Serial.print("tempBPM ");
-        //        Serial.println(tempBPM);
+      if (QS_interval == true) {                      // Quantified Self flag is true when arduino finds a heartbeat
+       bpm2Send(BPM_interval);
+        //    sendDataToProcessing('B', BPM);  // send heart rate with a 'B' prefix
+        //    sendDataToProcessing('Q', IBI);  // send time between beats with a 'Q' prefix
+        QS_interval = false;                      // reset the Quantified Self flag for next time
       }
-      old_latestSample = latestSample;
 
       //      sampleSend(latestSample);
       //       comboSend(pulseSensor.getPulseTrough(), tempBPM, pulseSensor.getPulsePeak());
