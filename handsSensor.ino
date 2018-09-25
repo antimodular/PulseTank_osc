@@ -23,7 +23,6 @@ void handInput_interrupt() {
   new_cnt++;
   pulse = digitalRead(HAND_INPUT);
 
-  //  if (pulse != lastPulse) {
   //    Serial.print (" ");
   //    Serial.print (pulse);
   //    Serial.print (" / ");
@@ -98,10 +97,6 @@ void handInput_interrupt() {
       //      insideSend(new_handsOn);
     }
   } //end pulse == LOW
-
-
-  //    lastPulse = pulse;
-  //  }//end if (pulse != lastPulse)
 }
 
 void loop_handsSensor() {
