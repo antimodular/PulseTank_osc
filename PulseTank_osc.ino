@@ -110,6 +110,7 @@ bool handsOn = false;
 volatile bool pulse = 0;
 volatile bool lastPulse = 0;
 
+//TODO: can ellapsedMillis be used in interrupt function?
 elapsedMillis high_duration;
 elapsedMillis low_duration;
 
@@ -126,8 +127,8 @@ volatile int new_BPM;
 volatile int old_BPM;
 volatile bool new_handsOn;
 volatile bool old_handsOn;
-volatile int new_low_duration;
-volatile int new_high_duration;
+//volatile int new_low_duration;
+//volatile int new_high_duration;
 
 #endif
 
