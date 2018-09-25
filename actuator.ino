@@ -74,7 +74,7 @@ void loop_actuator() {
   //  offTimeSecondary = secondaryDuration - onTimeSecondary;
 
   if (forceSolenoid == true) {
-    if (millis() - forceTimer < 500) {
+    if (millis() - forceTimer < onTimePrimary) {
       allOn(0);
     } else {
       allOff(0);

@@ -1,12 +1,12 @@
 
-#define USE_FINGER
-//#define USE_HANDS
+//#define USE_FINGER
+#define USE_HANDS
 
 //#define USE_WIFI
 
 #include "build_version.h"
 
-int deviceId = 2; //set this via drip switch. starts with 0
+int deviceId = 4; //set this via drip switch. starts with 0
 
 //------------------ wifi or ethernet + OSC -------------------
 #include <OSCMessage.h>
@@ -181,10 +181,10 @@ void setup() {
   Serial.println(deviceId);
 
 #ifdef USE_FINGER
-  Serial.print("sensor type ");
+  Serial.print("sensor type: ");
   Serial.println("USE_FINGER");
 #else
-  Serial.print("sensor type ");
+  Serial.print("sensor type: ");
   Serial.println("USE_HANDS");
 #endif
 
