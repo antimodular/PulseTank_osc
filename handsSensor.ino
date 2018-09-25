@@ -45,17 +45,17 @@ void handInput_interrupt() {
     digitalWrite(PULSE_BLINK, LOW);
 
     if (signalType == 2) {
-//      old_BPM = new_BPM;
+      //      old_BPM = new_BPM;
       new_BPM = 60000 / low_duration;
-      //        if (bDebug) {
-      Serial.print ("dur ");
-      Serial.print (low_duration);
-      Serial.print (" / new_BPM ");
-      Serial.print (new_BPM);
-      Serial.println();
-      //        }
-//      bpmSend(new_BPM);
-//      set_actuatorBPM(new_BPM);
+      if (bDebug) {
+        Serial.print ("dur ");
+        Serial.print (low_duration);
+        Serial.print (" / new_BPM ");
+        Serial.print (new_BPM);
+        Serial.println();
+      }
+      //      bpmSend(new_BPM);
+      //      set_actuatorBPM(new_BPM);
       //        Serial.println();
     }
   } else {
@@ -67,31 +67,35 @@ void handInput_interrupt() {
     {
       //50 ms
       signalType = 1;
-      Serial.print (" hands on ");
-      Serial.println (high_duration);
-
+      if (bDebug) {
+        Serial.print (" hands on ");
+        Serial.println (high_duration);
+      }
       new_handsOn = true;
-//      insideSend(new_handsOn);
+      //      insideSend(new_handsOn);
     }
     else if (high_duration > 18 && high_duration < 22)
     {
       //20 ms
       signalType = 2;
-      Serial.print (" type pulse ");
-      Serial.print (high_duration);
-      Serial.println();
+      if (bDebug) {
+        Serial.print (" type pulse ");
+        Serial.print (high_duration);
+        Serial.println();
+      }
     }
     else //if(high_duration >= 70)
     {
       //70 ms
       signalType = 3;
-      Serial.print (" hands off ");
-      Serial.println (high_duration);
-
+      if (bDebug) {
+        Serial.print (" hands off ");
+        Serial.println (high_duration);
+      }
       new_handsOn = false;
       new_BPM = -1;
-//      set_actuatorBPM(new_BPM);
-//      insideSend(new_handsOn);
+      //      set_actuatorBPM(new_BPM);
+      //      insideSend(new_handsOn);
     }
   } //end pulse == LOW
 
@@ -110,36 +114,36 @@ void loop_handsSensor() {
   if (old_cnt != new_cnt) {
     old_cnt = new_cnt;
 
-    Serial.print("old_BPM ");
-    Serial.print(old_BPM);
-    Serial.print(" new_BPM ");
-    Serial.print(new_BPM);
-    Serial.print("       ");
-
-    Serial.print("old_handsOn ");
-    Serial.print(old_handsOn);
-    Serial.print(" new_handsOn ");
-    Serial.print(new_handsOn);
-    Serial.print("       ");
-
-    Serial.print(" new_cnt ");
-    Serial.print(new_cnt);
-    Serial.print(" signalType ");
-    Serial.print(signalType);
-    Serial.println();
+    //    Serial.print("old_BPM ");
+    //    Serial.print(old_BPM);
+    //    Serial.print(" new_BPM ");
+    //    Serial.print(new_BPM);
+    //    Serial.print("       ");
+    //
+    //    Serial.print("old_handsOn ");
+    //    Serial.print(old_handsOn);
+    //    Serial.print(" new_handsOn ");
+    //    Serial.print(new_handsOn);
+    //    Serial.print("       ");
+    //
+    //    Serial.print(" new_cnt ");
+    //    Serial.print(new_cnt);
+    //    Serial.print(" signalType ");
+    //    Serial.print(signalType);
+    //    Serial.println();
   }
-    if (old_BPM != new_BPM) {
-      old_BPM = new_BPM;
-      BPM = new_BPM;
-      bpmSend(BPM);
-      set_actuatorBPM(BPM);
-    }
-    if (old_handsOn != new_handsOn) {
-      old_handsOn = new_handsOn;
-      handsOn = new_handsOn;
-      insideSend(handsOn);
-    }
-    pulse = digitalRead(HAND_INPUT);
+  if (old_BPM != new_BPM) {
+    old_BPM = new_BPM;
+    BPM = new_BPM;
+    bpmSend(BPM);
+    set_actuatorBPM(BPM);
+  }
+  if (old_handsOn != new_handsOn) {
+    old_handsOn = new_handsOn;
+    handsOn = new_handsOn;
+    insideSend(handsOn);
+  }
+  pulse = digitalRead(HAND_INPUT);
 
 
 }
