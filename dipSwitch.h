@@ -1,5 +1,6 @@
 int dipAmt = 5;
-int dipPins[] = {A5,A4,A3,A2,A1}; // 19, 20, 14, 15, 16, 17}; //DIP Switch Pins
+//int dipPins[] = {8, A4, A3, A2, A1}; //DIP Switch Pins
+int dipPins[] = {A1, A2, A3, A4, 8};
 byte ip_ = 0; //default will be changed once DIP switch is read
 byte temp_ip = -1;
 int startAddress = 0;
@@ -35,10 +36,14 @@ byte address() {
   int i, j = 0;
   //Get the switches state
   for (i = 0; i < dipAmt; i++) {
-    Serial.println(digitalReadFast(dipPins[i]));
-//        j = (j << 1) | !digitalReadFast(dipPins[i]);   // read the input pin. ! turns true in to false and vis versa
-    j = (j << 1) | digitalReadFast(dipPins[i]);
+    //    Serial.print(digitalReadFast(dipPins[i]));
+    //    Serial.print(" , ");
+    //    Serial.print(!digitalReadFast(dipPins[i]));
+    //    Serial.println();
+    j = (j << 1) | !digitalReadFast(dipPins[i]);   // read the input pin. ! turns true in to false and vis versa. might have to reverse pin order to get right address
+    //    j = (j << 1) | digitalReadFast(dipPins[i]);
   }
+  //  Serial.println(j, BIN);
   return j; //return address
 }
 
