@@ -6,7 +6,10 @@
 
 #include "build_version.h"
 
+bool bDebug = false; // can be enabled by computer GUI sending the right osc message
+
 int deviceId = 2; //set this via drip switch. starts with 0
+#include "dipSwitch.h"
 
 //------------------ wifi or ethernet + OSC -------------------
 #include <OSCMessage.h>
@@ -185,7 +188,7 @@ bool bUseFinder;
 int fakeSample, fakeBPM;
 unsigned long fakeTimer;
 
-bool bDebug = false;
+
 
 
 void setup() {
@@ -208,6 +211,9 @@ void setup() {
   Serial.println("USE_HANDS");
 #endif
 
+  init_dipSwitch_IP();
+  deviceId = getIP();
+
   //----------Finger PulseSensor
 #ifdef USE_FINGER
   timer0.begin(timerCallback0, 2000);
@@ -218,7 +224,7 @@ void setup() {
 
 #ifdef USE_HANDS
   setup_handsSensor();
-   attachInterrupt(digitalPinToInterrupt(HAND_INPUT), handInput_interrupt, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(HAND_INPUT), handInput_interrupt, CHANGE);
 
 #endif
 

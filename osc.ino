@@ -14,6 +14,7 @@
   //https://learn.sparkfun.com/tutorials/esp8266-thing-hookup-guide/installing-the-esp8266-arduino-addon?_ga=2.154687355.2110226771.1521656366-1623107573.1508894841
   --------------------------------------------------------------------------------------------- */
 
+
 unsigned long lastPing;
 
 void setup_osc() {
