@@ -266,7 +266,7 @@ void loop_osc() {
 
     Serial.print(millis() - lastPing);
     Serial.print(" , ");
-    Serial.println("call setup again because no new OSC for x ms-----BUT NOT");
+    Serial.println("call setup again because no new OSC for x ms"); //-----BUT NOT");
     setup_osc();
   }
 }

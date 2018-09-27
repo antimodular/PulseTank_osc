@@ -122,7 +122,7 @@ void loop_fingerSensor() {
         BPM = pulseSensor.getBeatsPerMinute();
         //        if (BPM > 55 && BPM < 130) {
         bpmSend(BPM);
-        set_actuatorBPM(BPM);
+        set_actuatorBPM(BPM, 1);
         //        }
 //        if (bDebug) {
         pulseSensor.outputBeat(); //for debugging via serial port

@@ -73,7 +73,7 @@ const int PULSE_FADE = 0;
 const int PULSE_INPUT = A6;
 const int HAND_INPUT = 14;
 const int PULSE_FADE = A9;
-const int TOUCH_PIN = A1; //A1;
+const int TOUCH_PIN = A8;
 #endif
 
 

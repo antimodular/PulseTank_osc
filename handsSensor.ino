@@ -130,7 +130,7 @@ void loop_handsSensor() {
     old_BPM = new_BPM;
     BPM = new_BPM;
     bpmSend(BPM);
-    set_actuatorBPM(BPM);
+    set_actuatorBPM(BPM, 2);
   }
   if (old_handsOn != new_handsOn) {
     old_handsOn = new_handsOn;

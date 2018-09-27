@@ -29,10 +29,10 @@ void setup_actuator() {
   pulseStage = 1;
   stageDuration = onTimePrimary;
   actuationTimer = millis();
-  set_actuatorBPM(-1);
+  set_actuatorBPM(-1, 0);
 }
 
-void set_actuatorBPM(int _BPM) {
+void set_actuatorBPM(int _BPM, int _whoSent) {
 
   if (_BPM == -1) {
     BPM_duration = 0;
@@ -50,6 +50,9 @@ void set_actuatorBPM(int _BPM) {
     Serial.print(_BPM);
     Serial.print(" BPM_duration ");
     Serial.print(BPM_duration);
+    Serial.print(" _whoSent "); // 0 = setup, 1 = finger, 2 = hands, 3 = touch
+    Serial.print(_whoSent);
+
     Serial.println();
   }
   old_BPM_duration = BPM_duration;
