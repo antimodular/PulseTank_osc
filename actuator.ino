@@ -8,6 +8,7 @@ unsigned long actuationTimer;
 unsigned long stageDuration;
 int pulseStage;
 
+//int new_BPM_duration;
 int BPM_duration;
 int old_BPM_duration;
 
@@ -77,6 +78,7 @@ void loop_actuator() {
   //  offTimeSecondary = secondaryDuration - onTimeSecondary;
 
   if (forceSolenoid == true) {
+    //computer GUI can force solenoid to actuate
     if (millis() - forceTimer < onTimePrimary) {
       allOn(0);
     } else {
@@ -148,7 +150,7 @@ void loop_actuator() {
 
     } else {
       allOff(0);
-    }//end else if BPM_duration == 0
+    }//end else if (BPM_duration > 0  && (isTouched == true || handsOn == true))
   }//end else if (forceSolenoid == true)
 }
 

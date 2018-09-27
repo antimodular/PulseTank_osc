@@ -16,8 +16,7 @@ void setup_handsSensor() {
 }
 
 //try to put as little as possible inside the interrupt function and do sending and digitelwrite outside of it.
-//really just use it to measure timing
-
+//really just use it to measure timing of pulse coming from polar heart rate sensor
 void handInput_interrupt() {
   old_cnt = new_cnt;
   new_cnt++;
