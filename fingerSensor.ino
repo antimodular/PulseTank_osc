@@ -64,7 +64,7 @@ void loop_fingerSensor() {
       int latestSample = pulseSensor.getLatestSample();
 
       if (QS_interval == true) {                      // Quantified Self flag is true when arduino finds a heartbeat
-       bpm2Send(BPM_interval);
+        bpm2Send(BPM_interval);
         //    sendDataToProcessing('B', BPM);  // send heart rate with a 'B' prefix
         //    sendDataToProcessing('Q', IBI);  // send time between beats with a 'Q' prefix
         QS_interval = false;                      // reset the Quantified Self flag for next time
@@ -121,10 +121,14 @@ void loop_fingerSensor() {
       if (pulseSensor.sawStartOfBeat()) {
         BPM = pulseSensor.getBeatsPerMinute();
         //        if (BPM > 55 && BPM < 130) {
-        bpmSend(BPM);
-        set_actuatorBPM(BPM, 1);
+        if (isTouched == false) {
+          bpmSend(-1);
+        } else {
+          bpmSend(BPM);
+          set_actuatorBPM(BPM, 1);
+        }
         //        }
-//        if (bDebug) {
+        //        if (bDebug) {
         pulseSensor.outputBeat(); //for debugging via serial port
 
       }

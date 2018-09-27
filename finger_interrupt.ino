@@ -1,3 +1,4 @@
+#ifdef USE_FINGER
 volatile int rate[10];                    // used to hold last ten IBI values
 volatile unsigned long sampleCounter = 0;          // used to determine pulse timing
 volatile unsigned long lastBeatTime = 0;           // used to find the inter beat interval
@@ -108,3 +109,5 @@ void timerCallback0() {
   sei();                                     // enable interrupts when youre done!
 
 }
+#endif
+
