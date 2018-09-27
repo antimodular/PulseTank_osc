@@ -1,6 +1,6 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -8,7 +8,7 @@
 
 bool bDebug = false; // can be enabled by computer GUI sending the right osc message
 
-int deviceId = 0; //set this via drip switch. starts with 0
+int deviceId = 0; //set this via dip switch. starts with 0
 #include "dipSwitch.h"
 
 //------------------ wifi or ethernet + OSC -------------------
@@ -146,7 +146,7 @@ volatile bool old_handsOn;
 
 //------------touch sensor--------------
 
-int touchThreshold = 4g000;
+int touchThreshold = 4000;
 
 bool isTouched = false;
 bool old_isTouched = false;

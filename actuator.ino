@@ -8,19 +8,25 @@ unsigned long actuationTimer;
 unsigned long stageDuration;
 int pulseStage;
 
-//int new_BPM_duration;
+int new_BPM_duration;
 int BPM_duration;
 int old_BPM_duration;
 
+int new_primaryDuration;
 int primaryDuration; // = BPM_duration / 4;
+int new_secondaryDuration;
 int secondaryDuration; // = BPM_duration - primaryDuration;
+
+bool gotNew_actuation;
 
 //int onTimePrimary = 30; //20; //30;
 //int onTimeSecondary = 30; //20; //30;
 
 bool useAnalog = false;
 
+int new_offTimePrimary;
 int offTimePrimary; // = primaryDuration - onTimePrimary;
+int new_offTimeSecondary;
 int offTimeSecondary; // = secondaryDuration - onTimeSecondary;
 
 void setup_actuator() {
@@ -36,30 +42,44 @@ void setup_actuator() {
 void set_actuatorBPM(int _BPM, int _whoSent) {
 
   if (_BPM == -1) {
-    BPM_duration = 0;
+    new_BPM_duration = 0;
   } else {
-    BPM_duration = 60000 / _BPM;
-    primaryDuration = BPM_duration / 3;
-    secondaryDuration = BPM_duration - primaryDuration;
+    new_BPM_duration = 60000 / _BPM;
+    new_primaryDuration = new_BPM_duration / 3;
+    new_secondaryDuration = new_BPM_duration - new_primaryDuration;
 
-    offTimePrimary = primaryDuration - onTimePrimary;
-    offTimeSecondary = secondaryDuration - onTimeSecondary;
+    new_offTimePrimary = new_primaryDuration - onTimePrimary;
+    new_offTimeSecondary = new_secondaryDuration - onTimeSecondary;
   }
+  gotNew_actuation = false;
+  if (old_BPM_duration != new_BPM_duration) {
 
-  if (old_BPM_duration != BPM_duration) {
-    Serial.print("set_actuatorBPM: ");
+    gotNew_actuation = true;
+    Serial.print("receive set_actuatorBPM: ");
     Serial.print(_BPM);
-    Serial.print(" BPM_duration ");
-    Serial.print(BPM_duration);
+    Serial.print(" new_BPM_duration ");
+    Serial.print(new_BPM_duration);
     Serial.print(" _whoSent "); // 0 = setup, 1 = finger, 2 = hands, 3 = touch
     Serial.print(_whoSent);
 
     Serial.println();
+
+
   }
-  old_BPM_duration = BPM_duration;
+  old_BPM_duration = new_BPM_duration;
 }
 
+void applyNewValues() {
 
+  Serial.println("apply new_actuatorBPM: ");
+
+  BPM_duration = new_BPM_duration;
+  primaryDuration = new_primaryDuration;
+  secondaryDuration = new_secondaryDuration;
+
+  offTimePrimary = new_offTimePrimary;
+  offTimeSecondary = new_offTimeSecondary;
+}
 void loop_actuator() {
   //
   //      Serial.print("BPM_duration ");
@@ -143,12 +163,22 @@ void loop_actuator() {
           }
           actuationTimer = millis();
           pulseStage = 1;
+
+          if (gotNew_actuation == true) {
+            gotNew_actuation = false;
+            applyNewValues();
+          }
+
           stageDuration = onTimePrimary;
           allOn(stageDuration);
         }
       }
 
     } else {
+      if (gotNew_actuation == true) {
+        gotNew_actuation = false;
+        applyNewValues();
+      }
       allOff(0);
     }//end else if (BPM_duration > 0  && (isTouched == true || handsOn == true))
   }//end else if (forceSolenoid == true)
@@ -157,7 +187,7 @@ void loop_actuator() {
 
 void allOn(int _duration) {
   //_duration does not do anything.
-  
+
   //    Serial.print("allOn ");
   //    Serial.print(_duration);
   //    Serial.println();
