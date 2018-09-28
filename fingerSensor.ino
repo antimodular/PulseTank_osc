@@ -124,14 +124,32 @@ void loop_fingerSensor() {
         if (isTouched == false) {
           bpmSend(-1);
         } else {
+
+          //
           bpmSend(BPM);
-          set_actuatorBPM(BPM, 1);
-        }
+          //          int BPM2 = 60000 / BPM_interval;
+          int abs_interval = abs(73 - BPM_interval);
+          int abs_bpm = abs(73 - BPM);
+
+    
+          Serial.print("abs_bpm ");
+          Serial.print(abs_bpm);
+          Serial.print(" abs_interval ");
+          Serial.print(abs_interval);
+          Serial.println();
+          
+          if ( abs_interval < abs_bpm ) {
+            set_actuatorBPM(BPM_interval, 1);
+          } else {
+            set_actuatorBPM(BPM, 1);
+          }
+
+        }//end else if (isTouched == false)
         //        }
         //        if (bDebug) {
         pulseSensor.outputBeat(); //for debugging via serial port
 
-      }
+      }//end  if (pulseSensor.sawStartOfBeat())
 
       // Serial.print("inside ");
       //        Serial.println( pulseSensor.isInsideBeat());

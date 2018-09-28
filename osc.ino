@@ -393,11 +393,12 @@ void insideSend(bool _inside) {
 
 }
 
-void touchReadSend(int _touchReading) {
+void touchReadSend(int _touchReading, int _touchAverage) {
 
   OSCMessage msg("/touchRead");
   msg.add(deviceId);
   msg.add(_touchReading);
+  msg.add(_touchAverage);
   Udp.beginPacket(outIp, outPort);
   msg.send(Udp);
   Udp.endPacket();

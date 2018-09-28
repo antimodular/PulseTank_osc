@@ -6,6 +6,8 @@ int touchValue;
 int raw_touchValue;
 int old_touchValue;
 
+int touchAverage;
+
 unsigned long touch_onTimer; //touch_onHysteresis;
 unsigned long touch_offTimer;
 unsigned long onHysteresis = 20;
@@ -54,9 +56,14 @@ void check_touchSensor() {
     }
   }
 
+//  float touchAvg_alpha = 0.99;
+//  if (raw_touchValue < 6000) {
+//    touchAverage = touchAvg_alpha * touchAverage + (1 - touchAvg_alpha) * raw_touchValue;
+////    touchThreshold = touchAverage;
+//  }
   if (bDebug) {
     if (millis()  - touchPrint_timer > 1000) {
-      touchReadSend(touchValue);
+      touchReadSend(touchValue, 0); //touchAverage);
       touchPrint_timer = millis();
       Serial.print("touchVal ");
       Serial.print(touchValue);
