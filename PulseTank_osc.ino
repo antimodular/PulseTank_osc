@@ -1,6 +1,6 @@
 
-#define USE_FINGER
-//#define USE_HANDS
+//#define USE_FINGER
+#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -141,6 +141,8 @@ volatile bool new_handsOn;
 volatile bool old_handsOn;
 //volatile int new_low_duration;
 //volatile int new_high_duration;
+
+//unsigned long hands_onTimer;
 
 #endif
 

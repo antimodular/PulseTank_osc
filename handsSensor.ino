@@ -2,6 +2,8 @@
 //#include <elapsedMillis.h>
 
 unsigned long typeTimer;
+unsigned long hands_onTimer = 0;
+unsigned long hands_offTimer;
 
 void setup_handsSensor() {
 
@@ -125,18 +127,43 @@ void loop_handsSensor() {
     //    Serial.print(signalType);
     //    Serial.println();
   }
-  if (old_BPM != new_BPM) {
-    old_BPM = new_BPM;
-    BPM = new_BPM;
-    bpmSend(BPM);
-    set_actuatorBPM(BPM, 2);
-  }
+
   if (old_handsOn != new_handsOn) {
     old_handsOn = new_handsOn;
     handsOn = new_handsOn;
     insideSend(handsOn);
+    //    if (handsOn == false) new_BPM = -1;
   }
-  pulse = digitalRead(HAND_INPUT);
+
+  if (handsOn == false) hands_onTimer = millis();
+  else  hands_offTimer = millis();
+
+  bool isTouched_longTime = false;
+  if (millis() - hands_onTimer > 4000) isTouched_longTime = true;
+
+  if (old_BPM != new_BPM || isTouched_longTime == true) {
+
+    //    if (new_BPM != -1 && (new_BPM < 40 || new_BPM > 120) ) new_BPM = random(97, 99);
+    //    if (isTouched_longTime == true && (new_BPM < 40 || new_BPM > 120)) new_BPM = 99;
+    //    if (isTouched_longTime == false && (new_BPM < 40 || new_BPM > 120)) new_BPM = 100;
+
+    if (new_BPM < 40 || new_BPM > 120) new_BPM = 73;
+
+    if (handsOn == false) {
+      new_BPM = -1;
+    }
+
+    if (old_BPM != new_BPM) {
+      BPM = new_BPM;
+      bpmSend(BPM);
+      set_actuatorBPM(BPM, 2);
+    }
+
+    old_BPM = new_BPM;
+  }
+
+
+  //  pulse = digitalRead(HAND_INPUT);
 
 
 }

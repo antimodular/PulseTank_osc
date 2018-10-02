@@ -41,6 +41,9 @@ void setup_actuator() {
 
 void set_actuatorBPM(int _BPM, int _whoSent) {
 
+//Serial.print("set_actuatorBPM() ");
+//Serial.println(_BPM);
+
   if (_BPM == -1) {
     new_BPM_duration = 0;
   } else {
