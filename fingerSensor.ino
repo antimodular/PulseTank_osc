@@ -118,10 +118,19 @@ void loop_fingerSensor() {
          At about the beginning of every heartbeat,
          report the heart rate and inter-beat-interval.
       */
-      if (pulseSensor.sawStartOfBeat()) {
+
+      bool isTouched_longTime = false;
+      if(millis() - touch_onTimer > 4000) isTouched_longTime = true;
+      
+      if (pulseSensor.sawStartOfBeat() || isTouched_longTime == true) {
+        
         BPM = pulseSensor.getBeatsPerMinute();
+
+        if(BPM < 40 || BPM > 120) BPM = 73;
+        
         //        if (BPM > 55 && BPM < 130) {
         if (isTouched == false) {
+          //in case we see sensor readings that might look like a heart beat but no finger touching was detected, we want to ignor that reading
           bpmSend(-1);
         } else {
 

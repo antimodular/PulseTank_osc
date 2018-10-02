@@ -8,7 +8,7 @@ int old_touchValue;
 
 int touchAverage;
 
-unsigned long touch_onTimer; //touch_onHysteresis;
+//unsigned long touch_onTimer; //touch_onHysteresis;
 unsigned long touch_offTimer;
 unsigned long onHysteresis = 20;
 unsigned long offHysteresis = 20;

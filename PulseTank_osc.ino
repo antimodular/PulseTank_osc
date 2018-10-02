@@ -150,6 +150,7 @@ int touchThreshold = 4000;
 
 bool isTouched = false;
 bool old_isTouched = false;
+unsigned long touch_onTimer = 0; 
 
 //------------ actuator ---------------
 #ifdef USE_WIFI
