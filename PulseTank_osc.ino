@@ -169,6 +169,8 @@ int onTimeSecondary = 20; //20; //30;
 bool forceSolenoid = false;
 unsigned long forceTimer;
 
+int maxWaitTime = 4000;
+
 //int downTimePrimary = 35 * 4;
 //int downTimeSecondary = 35 * 4;
 //int new_downTimePrimary = downTimePrimary;

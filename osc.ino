@@ -129,6 +129,19 @@ void setForceSolenoid(OSCMessage &msg) {
   }
 }
 
+void setMaxWaitTime(OSCMessage &msg) {
+  //sets the wait time before we apply a fake BPM to the actuator, in case the sensor readings take longer to produce propper results
+  int requestedDeviceId = msg.getInt(0);
+
+  if (requestedDeviceId == deviceId) {
+    //   int sensorId = msg.getInt(1);
+    maxWaitTime = msg.getInt(2);
+
+    Serial.print("/maxWait: ");
+    Serial.println(maxWaitTime);
+  }
+}
+
 
 //void setReset(OSCMessage &msg) {
 //  int requestedDeviceId = msg.getInt(0);
@@ -178,6 +191,7 @@ void checkOSC_inputMsg() {
       msg.dispatch("/onTimeP", setOnTimePrimary);
       msg.dispatch("/onTimeS", setOnTimeSecondary);
       msg.dispatch("/forceS", setForceSolenoid);
+      msg.dispatch("/maxWait", setMaxWaitTime);
       msg.dispatch("/debug", setDebug);
       msg.empty();
     } else {

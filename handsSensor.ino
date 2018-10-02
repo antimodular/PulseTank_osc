@@ -139,7 +139,7 @@ void loop_handsSensor() {
   else  hands_offTimer = millis();
 
   bool isTouched_longTime = false;
-  if (millis() - hands_onTimer > 4000) isTouched_longTime = true;
+  if (millis() - hands_onTimer > maxWaitTime) isTouched_longTime = true;
 
   if (old_BPM != new_BPM || isTouched_longTime == true) {
 

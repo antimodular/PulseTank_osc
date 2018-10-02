@@ -120,7 +120,7 @@ void loop_fingerSensor() {
       */
 
       bool isTouched_longTime = false;
-      if(millis() - touch_onTimer > 4000) isTouched_longTime = true;
+      if(millis() - touch_onTimer > maxWaitTime) isTouched_longTime = true;
       
       if (pulseSensor.sawStartOfBeat() || isTouched_longTime == true) {
         
