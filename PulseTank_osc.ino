@@ -1,6 +1,6 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -221,7 +221,7 @@ void setup() {
 #endif
 
   pinMode(MICRO_PIN, OUTPUT);
-  digitalWrite(MICRO_PIN,HIGH);
+  digitalWrite(MICRO_PIN, HIGH);
   alive_cnt = 0;
   micro_state = true;
 
@@ -296,20 +296,41 @@ void loop() {
   }// bUseFake == false;
 
   //------update ticker
+  bool bMicroLED_touch = false;
+#ifdef USE_FINGER
+  if (isTouched == true) bMicroLED_touch = true;
+#else
+  if (handsOn == true) bMicroLED_touch = true;
+#endif
+
   if (millis() - tickTimer > 1000) {
     tickTimer = millis();
     tickerSend();
     alive_cnt++;
-    if (alive_cnt == 2) {
-      alive_cnt = 0;
+    //    if (alive_cnt == 2) {
+    //      alive_cnt = 0;
+    //      micro_state = !micro_state;
+    //      digitalWrite(MICRO_PIN, micro_state);
+    //    }
+  }
+
+
+  if (millis() - tickTimer2 > 200) {
+    tickTimer2 = millis();
+
+    alive_cnt++;
+    int blinkMod = 3;
+    if (bMicroLED_touch == true) {
+      blinkMod = 1;
+    }
+    if (alive_cnt % blinkMod == 0) {
       micro_state = !micro_state;
       digitalWrite(MICRO_PIN, micro_state);
     }
-  }
-
-  if (millis() - tickTimer2 > 5000) {
-    tickTimer2 = millis();
-    Serial.println("alive");
+    if (alive_cnt == 24) {
+      alive_cnt = 0;
+      Serial.println("alive");
+    }
   }
 
 }
