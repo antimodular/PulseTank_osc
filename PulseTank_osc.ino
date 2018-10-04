@@ -73,10 +73,11 @@ const int HAND_INPUT = 13;
 const int PULSE_FADE = 0;
 #else
 //via wiznet + teensy
-const int PULSE_INPUT = A6;
+const int PULSE_INPUT = A6; // aka 20
 const int HAND_INPUT = 14;
 const int PULSE_FADE = A9;
 const int TOUCH_PIN = A8;
+const int MICRO_PIN = A5; // aka 19;
 #endif
 
 
@@ -152,7 +153,7 @@ int touchThreshold = 4000;
 
 bool isTouched = false;
 bool old_isTouched = false;
-unsigned long touch_onTimer = 0; 
+unsigned long touch_onTimer = 0;
 
 //------------ actuator ---------------
 #ifdef USE_WIFI
@@ -186,6 +187,9 @@ int BPM;
 
 
 unsigned long tickTimer; //code will send a tick every so often so computer knows connecgtion is still alive
+unsigned long tickTimer2;
+int alive_cnt;
+bool micro_state;
 
 bool bUseFake;
 bool bUseFinder;
@@ -215,6 +219,11 @@ void setup() {
   Serial.print("sensor type: ");
   Serial.println("USE_HANDS");
 #endif
+
+  pinMode(MICRO_PIN, OUTPUT);
+  digitalWrite(MICRO_PIN,HIGH);
+  alive_cnt = 0;
+  micro_state = true;
 
   init_dipSwitch_IP();
   deviceId = getIP();
@@ -290,6 +299,17 @@ void loop() {
   if (millis() - tickTimer > 1000) {
     tickTimer = millis();
     tickerSend();
+    alive_cnt++;
+    if (alive_cnt == 2) {
+      alive_cnt = 0;
+      micro_state = !micro_state;
+      digitalWrite(MICRO_PIN, micro_state);
+    }
+  }
+
+  if (millis() - tickTimer2 > 5000) {
+    tickTimer2 = millis();
+    Serial.println("alive");
   }
 
 }
