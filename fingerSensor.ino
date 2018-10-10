@@ -120,14 +120,14 @@ void loop_fingerSensor() {
       */
 
       bool isTouched_longTime = false;
-      if(millis() - touch_onTimer > maxWaitTime) isTouched_longTime = true;
-      
+      if (millis() - touch_onTimer > maxWaitTime) isTouched_longTime = true;
+
       if (pulseSensor.sawStartOfBeat() || isTouched_longTime == true) {
-        
+
         BPM = pulseSensor.getBeatsPerMinute();
 
-        if(BPM < 40 || BPM > 120) BPM = 73;
-        
+        if (BPM < 40 || BPM > 120) BPM = 119; //73;
+
         //        if (BPM > 55 && BPM < 130) {
         if (isTouched == false) {
           //in case we see sensor readings that might look like a heart beat but no finger touching was detected, we want to ignor that reading
@@ -140,13 +140,13 @@ void loop_fingerSensor() {
           int abs_interval = abs(73 - BPM_interval);
           int abs_bpm = abs(73 - BPM);
 
-    
-          Serial.print("abs_bpm ");
-          Serial.print(abs_bpm);
-          Serial.print(" abs_interval ");
-          Serial.print(abs_interval);
-          Serial.println();
-          
+
+          //          Serial.print("abs_bpm ");
+          //          Serial.print(abs_bpm);
+          //          Serial.print(" abs_interval ");
+          //          Serial.print(abs_interval);
+          //          Serial.println();
+
           if ( abs_interval < abs_bpm ) {
             set_actuatorBPM(BPM_interval, 1);
           } else {
@@ -155,9 +155,9 @@ void loop_fingerSensor() {
 
         }//end else if (isTouched == false)
         //        }
-        //        if (bDebug) {
-        pulseSensor.outputBeat(); //for debugging via serial port
-
+//        if (bDebug) {
+//          pulseSensor.outputBeat(); //for debugging via serial port
+//        }
       }//end  if (pulseSensor.sawStartOfBeat())
 
       // Serial.print("inside ");

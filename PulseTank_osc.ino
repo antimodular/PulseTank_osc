@@ -233,7 +233,7 @@ void setup() {
   timer0.begin(timerCallback0, 2000);
 
   setup_fingerSensor();
-  setup_touchSensor();
+//  setup_touchSensor();
 #endif
 
 #ifdef USE_HANDS
@@ -286,6 +286,7 @@ void loop() {
 
 #ifdef USE_HANDS
     loop_handsSensor();
+     check_touchSensor();
 #endif
 
     loop_actuator();

@@ -54,7 +54,7 @@ void set_actuatorBPM(int _BPM, int _whoSent) {
     new_offTimePrimary = new_primaryDuration - onTimePrimary;
     new_offTimeSecondary = new_secondaryDuration - onTimeSecondary;
   }
-  gotNew_actuation = false;
+//  gotNew_actuation = false;
   if (old_BPM_duration != new_BPM_duration) {
 
     gotNew_actuation = true;
@@ -74,7 +74,8 @@ void set_actuatorBPM(int _BPM, int _whoSent) {
 
 void applyNewValues() {
 
-  Serial.println("apply new_actuatorBPM: ");
+  Serial.print("apply new_actuatorBPM: ");
+  Serial.println(new_BPM_duration);
 
   BPM_duration = new_BPM_duration;
   primaryDuration = new_primaryDuration;
