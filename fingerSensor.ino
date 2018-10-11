@@ -126,7 +126,7 @@ void loop_fingerSensor() {
 
         BPM = pulseSensor.getBeatsPerMinute();
 
-        if (BPM < 40 || BPM > 120) BPM = 119; //73;
+        if (BPM < 40 || BPM > 120) BPM = DEFAULT_BPM; //119; //73;
 
         //        if (BPM > 55 && BPM < 130) {
         if (isTouched == false) {
@@ -137,8 +137,8 @@ void loop_fingerSensor() {
           //
           bpmSend(BPM);
           //          int BPM2 = 60000 / BPM_interval;
-          int abs_interval = abs(73 - BPM_interval);
-          int abs_bpm = abs(73 - BPM);
+          int abs_interval = abs(DEFAULT_BPM - BPM_interval);
+          int abs_bpm = abs(DEFAULT_BPM - BPM);
 
 
           //          Serial.print("abs_bpm ");

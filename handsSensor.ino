@@ -22,7 +22,8 @@ void setup_handsSensor() {
 void handInput_interrupt() {
   old_cnt = new_cnt;
   new_cnt++;
-  pulse = digitalRead(HAND_INPUT);
+  //   pulse = digitalRead(HAND_INPUT);
+  pulse = digitalReadFast(HAND_INPUT);
 
   //    Serial.print (" ");
   //    Serial.print (pulse);

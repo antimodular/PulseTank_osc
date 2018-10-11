@@ -41,22 +41,41 @@ void setup_actuator() {
 
 void set_actuatorBPM(int _BPM, int _whoSent) {
 
-//Serial.print("set_actuatorBPM() ");
-//Serial.println(_BPM);
-
+  //Serial.print("set_actuatorBPM() ");
+  //Serial.println(_BPM);
+  int temp_bpmDuration;
   if (_BPM == -1) {
     new_BPM_duration = 0;
   } else {
-    new_BPM_duration = 60000 / _BPM;
-    new_primaryDuration = new_BPM_duration / 3;
+
+    bool useBPM_smoothing = true;
+    if (useBPM_smoothing == true) {
+      float bpm_alpha = 0.8;
+      temp_bpmDuration = 60000 / _BPM;
+      if (BPM_duration <= 0) BPM_duration = 60000 / DEFAULT_BPM; // is duration for 73 bpm
+      new_BPM_duration = bpm_alpha * BPM_duration + (1 - bpm_alpha) * temp_bpmDuration; //running average
+    } else {
+      new_BPM_duration = 60000 / _BPM;
+    }
+    new_primaryDuration = new_BPM_duration / 3; //spacing between primary and secondary beat
     new_secondaryDuration = new_BPM_duration - new_primaryDuration;
 
     new_offTimePrimary = new_primaryDuration - onTimePrimary;
     new_offTimeSecondary = new_secondaryDuration - onTimeSecondary;
   }
-//  gotNew_actuation = false;
+  //  gotNew_actuation = false;
   if (old_BPM_duration != new_BPM_duration) {
 
+    //    Serial.print("_BPM ");
+    //    Serial.print(_BPM);
+    //    Serial.print(" ,new_BPM_duration ");
+    //    Serial.print(new_BPM_duration);
+    //    Serial.print(" , BPM_duration ");
+    //    Serial.print(BPM_duration);
+    //    Serial.print(" , temp_bpmDuration ");
+    //    Serial.print(temp_bpmDuration);
+    //    Serial.println();
+    //
     gotNew_actuation = true;
     Serial.print("receive set_actuatorBPM: ");
     Serial.print(_BPM);

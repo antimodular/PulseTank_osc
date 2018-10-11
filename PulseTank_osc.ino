@@ -4,6 +4,8 @@
 
 //#define USE_WIFI
 
+#define DEFAULT_BPM 73
+
 #include "build_version.h"
 
 bool bDebug = false; // can be enabled by computer GUI sending the right osc message
