@@ -122,11 +122,29 @@ void loop_fingerSensor() {
       bool isTouched_longTime = false;
       if (millis() - touch_onTimer > maxWaitTime) isTouched_longTime = true;
 
-      if (pulseSensor.sawStartOfBeat() || isTouched_longTime == true) {
+      bool sawStart = pulseSensor.sawStartOfBeat();
+
+      if (sawStart || isTouched_longTime == true) {
 
         BPM = pulseSensor.getBeatsPerMinute();
 
-        if (BPM < 40 || BPM > 120) BPM = DEFAULT_BPM; //119; //73;
+        if (bDebug) {
+          Serial.print("------------------- sawStartOfBeat ");
+          Serial.print(sawStart);
+          Serial.println();
+        }
+
+        if (sawStart == true) {
+          //          sawStartTimer = millis();
+          if (BPM < 40 || BPM > 120) {
+            if (bDebug) {
+              Serial.print("BPM not good ");
+              Serial.print(BPM);
+              Serial.println();
+            }
+            BPM = DEFAULT_BPM; //119; //73;
+          }
+        }
 
         //        if (BPM > 55 && BPM < 130) {
         if (isTouched == false) {
@@ -137,6 +155,16 @@ void loop_fingerSensor() {
           //
           bpmSend(BPM);
           //          int BPM2 = 60000 / BPM_interval;
+
+          if (BPM_interval < 40 || BPM_interval > 120) {
+            if (bDebug) {
+              Serial.print("BPM_interval not good ");
+              Serial.print(BPM_interval);
+              Serial.println();
+            }
+            BPM_interval = DEFAULT_BPM; //119; //73;
+          }
+
           int abs_interval = abs(DEFAULT_BPM - BPM_interval);
           int abs_bpm = abs(DEFAULT_BPM - BPM);
 
@@ -155,9 +183,9 @@ void loop_fingerSensor() {
 
         }//end else if (isTouched == false)
         //        }
-//        if (bDebug) {
-//          pulseSensor.outputBeat(); //for debugging via serial port
-//        }
+        //        if (bDebug) {
+        //          pulseSensor.outputBeat(); //for debugging via serial port
+        //        }
       }//end  if (pulseSensor.sawStartOfBeat())
 
       // Serial.print("inside ");
