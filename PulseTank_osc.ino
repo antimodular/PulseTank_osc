@@ -99,7 +99,7 @@ const int OUTPUT_TYPE = PROCESSING_VISUALIZER;  //only needed for debugging
 
 bool bSensorType =  0; //0 == finger, 1 = hands
 
-int THRESHOLD = 750;  // Adjust this number to avoid noise when idle
+int THRESHOLD = 400;  // Adjust this number to avoid noise when idle
 
 byte samplesUntilReport;
 const byte SAMPLES_PER_SERIAL_SAMPLE = 10;
