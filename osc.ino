@@ -275,13 +275,14 @@ void loop_osc() {
   //  checkOSC_inputBundle();
   checkOSC_inputMsg();
 
+
   if (millis() - lastPing > 60000) {
     //    lastPing = millis();
     //    WiFi.stop();
 
     Serial.print(millis() - lastPing);
     Serial.print(" , ");
-    Serial.println("call setup again because no new OSC for x ms"); //-----BUT NOT");
+    Serial.println("call setup again because no new OSC for x ms"); //-----BUT NOT") reset osc;
     setup_osc();
   }
 }

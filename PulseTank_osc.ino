@@ -151,7 +151,7 @@ volatile bool old_handsOn;
 
 //------------touch sensor--------------
 
-int touchThreshold = 4000;
+int touchThreshold = 5200;
 
 bool isTouched = false;
 bool old_isTouched = false;
