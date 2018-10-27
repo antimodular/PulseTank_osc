@@ -1,6 +1,6 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -151,7 +151,7 @@ volatile bool old_handsOn;
 
 //------------touch sensor--------------
 
-int touchThreshold = 5200;
+int touchThreshold = 5500;
 
 bool isTouched = false;
 bool old_isTouched = false;
@@ -167,8 +167,8 @@ const int actuator1_pin = 3;
 #endif
 
 #ifdef USE_HANDS
-int onTimePrimary = 30; //20; //30;
-int onTimeSecondary = 30; //20; //30;
+int onTimePrimary = 34; //20; //30;
+int onTimeSecondary = 34; //20; //30;
 #else
 int onTimePrimary = 20; //20; //30;
 int onTimeSecondary = 20; //20; //30;
