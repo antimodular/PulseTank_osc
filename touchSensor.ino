@@ -61,6 +61,8 @@ void check_touchSensor() {
 //    touchAverage = touchAvg_alpha * touchAverage + (1 - touchAvg_alpha) * raw_touchValue;
 ////    touchThreshold = touchAverage;
 //  }
+
+#ifdef USE_FINGER
   if (bDebug) {
     if (millis()  - touchPrint_timer > 1000) {
       touchReadSend(touchValue, 0); //touchAverage);
@@ -73,5 +75,6 @@ void check_touchSensor() {
 
     }
   }
+  #endif
 }
 

@@ -93,6 +93,7 @@ void setPing(OSCMessage &msg) {
   //  if (requestedDeviceId == -1) {
   //   int sensorId = msg.getInt(1);
   if (bDebug) {
+    Serial.print("                                                       ");
     Serial.print(millis() - lastPing);
     Serial.print(" ms , ");
     Serial.println("/ping: ");

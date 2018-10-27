@@ -1,6 +1,6 @@
 
-#define USE_FINGER
-//#define USE_HANDS
+//#define USE_FINGER
+#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -166,8 +166,13 @@ const int actuator0_pin = 4;
 const int actuator1_pin = 3;
 #endif
 
+#ifdef USE_HANDS
+int onTimePrimary = 30; //20; //30;
+int onTimeSecondary = 30; //20; //30;
+#else
 int onTimePrimary = 20; //20; //30;
 int onTimeSecondary = 20; //20; //30;
+#endif
 
 bool forceSolenoid = false;
 unsigned long forceTimer;
