@@ -133,6 +133,7 @@ void loop_handsSensor() {
     old_handsOn = new_handsOn;
     handsOn = new_handsOn;
     insideSend(handsOn);
+    DEFAULT_BPM = random(DEFAULT_BPM_min,DEFAULT_BPM_max);
     //    if (handsOn == false) new_BPM = -1;
   }
 
@@ -148,7 +149,7 @@ void loop_handsSensor() {
     //    if (isTouched_longTime == true && (new_BPM < 40 || new_BPM > 120)) new_BPM = 99;
     //    if (isTouched_longTime == false && (new_BPM < 40 || new_BPM > 120)) new_BPM = 100;
 
-    if (new_BPM < 40 || new_BPM > 120) new_BPM = 73;
+    if (new_BPM < 40 || new_BPM > 120) new_BPM = DEFAULT_BPM;
 
     if (handsOn == false) {
       new_BPM = -1;

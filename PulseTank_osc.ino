@@ -1,10 +1,12 @@
 
-#define USE_FINGER
-//#define USE_HANDS
+//#define USE_FINGER
+#define USE_HANDS
 
 //#define USE_WIFI
 
-#define DEFAULT_BPM 73
+int DEFAULT_BPM_min = 65;
+int DEFAULT_BPM = 73;
+int DEFAULT_BPM_max = 74;
 
 #include "build_version.h"
 

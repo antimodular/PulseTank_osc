@@ -46,13 +46,14 @@ void check_touchSensor() {
 
   if (isTouched != old_isTouched) {
     old_isTouched = isTouched;
-    insideSend(isTouched);
+    insideSend(isTouched); //finger is inside. send that state to computer
     //    Serial.print("isTouched ");
     //    Serial.println(isTouched);
 
     if (isTouched == false) {
       set_actuatorBPM(-1, 3);
       bpmSend(-1);
+      DEFAULT_BPM = random(DEFAULT_BPM_min,DEFAULT_BPM_max);
     }
   }
 
