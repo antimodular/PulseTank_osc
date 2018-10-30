@@ -2,9 +2,9 @@ unsigned long touchPrint_timer;
 
 float touch_alpha = 0.9;
 
-int touchValue;
-int raw_touchValue;
-int old_touchValue;
+unsigned long touchValue;
+unsigned long raw_touchValue;
+unsigned long old_touchValue;
 
 int touchAverage;
 
@@ -66,7 +66,7 @@ void check_touchSensor() {
 #ifdef USE_FINGER
   if (bDebug) {
     if (millis()  - touchPrint_timer > 1000) {
-      touchReadSend(touchValue, 0); //touchAverage);
+      if(touchValue < 65534) touchReadSend(touchValue, 0); //touchAverage);
       touchPrint_timer = millis();
       Serial.print("touchVal ");
       Serial.print(touchValue);

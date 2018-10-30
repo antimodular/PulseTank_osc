@@ -1,6 +1,6 @@
 
-//#define USE_FINGER
-#define USE_HANDS
+#define USE_FINGER
+//#define USE_HANDS
 
 //#define USE_WIFI
 
@@ -153,7 +153,7 @@ volatile bool old_handsOn;
 
 //------------touch sensor--------------
 
-int touchThreshold = 5500;
+unsigned long touchThreshold = 5500;
 
 bool isTouched = false;
 bool old_isTouched = false;
