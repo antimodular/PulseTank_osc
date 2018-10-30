@@ -2,9 +2,9 @@ unsigned long touchPrint_timer;
 
 float touch_alpha = 0.9;
 
-unsigned long touchValue;
-unsigned long raw_touchValue;
-unsigned long old_touchValue;
+long touchValue;
+long raw_touchValue;
+long old_touchValue;
 
 int touchAverage;
 
@@ -19,14 +19,17 @@ void setup_touchSensor() {
 
 void check_touchSensor() {
 
+
   old_touchValue = touchValue;
   raw_touchValue = touchRead(TOUCH_PIN);
+  if (raw_touchValue < 0) raw_touchValue = 1;
 
   //create running average of touch value
   //the larger touch_alpha the greater the smoothing
   //the smaller touch_alpha the closer we get to the raw value
   touchValue = touch_alpha * old_touchValue + (1 - touch_alpha) * raw_touchValue;
 
+  touchValue = constrain(0, 65525);
 
   if (touchValue < touchThreshold) {
     //not touching
@@ -53,20 +56,22 @@ void check_touchSensor() {
     if (isTouched == false) {
       set_actuatorBPM(-1, 3);
       bpmSend(-1);
-      DEFAULT_BPM = random(DEFAULT_BPM_min,DEFAULT_BPM_max);
+      DEFAULT_BPM = random(DEFAULT_BPM_min, DEFAULT_BPM_max);
     }
   }
 
-//  float touchAvg_alpha = 0.99;
-//  if (raw_touchValue < 6000) {
-//    touchAverage = touchAvg_alpha * touchAverage + (1 - touchAvg_alpha) * raw_touchValue;
-////    touchThreshold = touchAverage;
-//  }
+  //  float touchAvg_alpha = 0.99;
+  //  if (raw_touchValue < 6000) {
+  //    touchAverage = touchAvg_alpha * touchAverage + (1 - touchAvg_alpha) * raw_touchValue;
+  ////    touchThreshold = touchAverage;
+  //  }
 
 #ifdef USE_FINGER
   if (bDebug) {
     if (millis()  - touchPrint_timer > 1000) {
-      if(touchValue < 65534) touchReadSend(touchValue, 0); //touchAverage);
+      if (touchValue >= 0 && touchValue < 65534) touchReadSend(touchValue, 0); //touchAverage);
+      else  touchReadSend(1234, 0);
+
       touchPrint_timer = millis();
       Serial.print("touchVal ");
       Serial.print(touchValue);
@@ -76,6 +81,6 @@ void check_touchSensor() {
 
     }
   }
-  #endif
+#endif
 }
 

@@ -153,7 +153,7 @@ volatile bool old_handsOn;
 
 //------------touch sensor--------------
 
-unsigned long touchThreshold = 5500;
+long touchThreshold = 5500;
 
 bool isTouched = false;
 bool old_isTouched = false;
