@@ -29,7 +29,7 @@ void check_touchSensor() {
   //the smaller touch_alpha the closer we get to the raw value
   touchValue = touch_alpha * old_touchValue + (1 - touch_alpha) * raw_touchValue;
 
-  touchValue = constrain(0, 65525);
+  touchValue = constrain(touchValue,0, 65532); //constrain the running average. not quite to maxx int so that later i can send out info about the actual value over osc
 
   if (touchValue < touchThreshold) {
     //not touching
@@ -69,7 +69,9 @@ void check_touchSensor() {
 #ifdef USE_FINGER
   if (bDebug) {
     if (millis()  - touchPrint_timer > 1000) {
-      if (touchValue >= 0 && touchValue < 65534) touchReadSend(touchValue, 0); //touchAverage);
+
+      //to help troubleshoot sound out 1234 if actual touchValue was bad
+      if (touchValue >= 0 && touchValue < 65530) touchReadSend(touchValue, 0); //touchAverage);
       else  touchReadSend(1234, 0);
 
       touchPrint_timer = millis();
