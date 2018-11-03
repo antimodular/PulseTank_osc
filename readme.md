@@ -9,7 +9,7 @@ The #define USE_FINGER or #define USE_HANDS will enable the reading of the speci
 To improve the interactive experience of the participant we added a capacity touch sensing element. This helps to know as soon as someone touches the sensor.
 
 
-![](https://github.com/antimodular/mbp-hacking/blob/master/2018-03-18%2014.51.10.jpg)
-![](https://github.com/antimodular/mbp-hacking/blob/master/2018-03-18%2014.51.10.jpg)
-![](https://github.com/antimodular/mbp-hacking/blob/master/2018-03-18%2014.51.10.jpg)
+![](https://github.com/antimodular/PulseTank_osc/blob/feature_backAtStudio/images/finger%20sensor%20instruction-01%20arrows.jpg)
+![](https://github.com/antimodular/PulseTank_osc/blob/feature_backAtStudio/images/hand%20sensor%20electronics.jpg)
+![](https://github.com/antimodular/PulseTank_osc/blob/feature_backAtStudio/images/hand_sensor.jpg)
 
