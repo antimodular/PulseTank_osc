@@ -128,11 +128,11 @@ void loop_fingerSensor() {
 
         BPM = pulseSensor.getBeatsPerMinute();
 
-        if (bDebug) {
-          Serial.print("------------------- sawStartOfBeat ");
-          Serial.print(sawStart);
-          Serial.println();
-        }
+//        if (bDebug) {
+//          Serial.print("------------------- sawStartOfBeat ");
+//          Serial.print(sawStart);
+//          Serial.println();
+//        }
 
         if (sawStart == true) {
           //          sawStartTimer = millis();

@@ -13,6 +13,9 @@ unsigned long touch_offTimer;
 unsigned long onHysteresis = 20;
 unsigned long offHysteresis = 20;
 
+bool touchReset = false;
+unsigned long overMaxTimer;
+
 void setup_touchSensor() {
 
 }
@@ -21,15 +24,37 @@ void check_touchSensor() {
 
 
   old_touchValue = touchValue;
-  raw_touchValue = touchRead(TOUCH_PIN);
+  raw_touchValue = touchRead(TOUCH_PIN); //max retruned value is 65535
   if (raw_touchValue < 0) raw_touchValue = 1;
+
+
+  //this is a test to work around the problem of the touchSensor causing constant pulsing of the actuator
+  if (raw_touchValue > 60000) {
+    //    Serial.print("raw_touchValue ");
+    //    Serial.print(raw_touchValue);
+    //    Serial.println();
+
+    if (millis() - overMaxTimer > 30000) { // && touchReset == false) {
+      overMaxTimer = millis();
+      //      touchReset = true;
+      pinMode(TOUCH_PIN, OUTPUT);
+      digitalWrite(TOUCH_PIN, LOW);
+      Serial.println("reset touch");
+      allOff(0);
+      delay(2000);
+    }
+  } else {
+    overMaxTimer = millis();
+    //    touchReset = false;
+  }
+  //end test
 
   //create running average of touch value
   //the larger touch_alpha the greater the smoothing
   //the smaller touch_alpha the closer we get to the raw value
   touchValue = touch_alpha * old_touchValue + (1 - touch_alpha) * raw_touchValue;
 
-  touchValue = constrain(touchValue,0, 65532); //constrain the running average. not quite to maxx int so that later i can send out info about the actual value over osc
+  touchValue = constrain(touchValue, 0, 65532); //constrain the running average. not quite to maxx int so that later i can send out info about the actual value over osc
 
   if (touchValue < touchThreshold) {
     //not touching
